@@ -4,45 +4,45 @@ Package resources は、AWS に存在する各種リソースの情報を取得�
 package resources
 
 import (
-	"strings"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/elbv2"
+	"strings"
 )
 
 // Instance .
 type Instance struct {
-	InstanceID   string `json:"InstanceId"`
-	InstanceType string `json:"InstanceType"`
-	Placement    string `json:"Placement"`
-	PrivateIP    string `json:"PrivateIP"`
-	PublicIP     string `json:"PublicIP"`
-	State        string `json:"State"`
-	Tags         []Tag  `json:"Tags"`
-	Name         string `json:"Name"`
+	InstanceID   string       `json:"InstanceId"`
+	InstanceType string       `json:"InstanceType"`
+	Placement    string       `json:"Placement"`
+	PrivateIP    string       `json:"PrivateIP"`
+	PublicIP     string       `json:"PublicIP"`
+	State        string       `json:"State"`
+	Tags         []Tag        `json:"Tags"`
+	Name         string       `json:"Name"`
 	LoadBalancer LoadBalancer `json:"LoadBalancer"`
 }
 
 // LoadBalancer .
 type LoadBalancer struct {
-	Arn string `json:"Arn"`
-	Name string `json:"Name"`
-	Tags []Tag `json:"Tags"`
+	Arn          string        `json:"Arn"`
+	Name         string        `json:"Name"`
+	Tags         []Tag         `json:"Tags"`
 	TargetGroups []TargetGroup `json:"TargetGroups"`
 }
 
 // TargetGroup .
 type TargetGroup struct {
-	Arn string `json:"Arn"`
-	Name string `json:"Name"`
+	Arn     string   `json:"Arn"`
+	Name    string   `json:"Name"`
 	Targets []Target `json:"Targets"`
 }
 
 // Target .
 type Target struct {
 	InstanceID string `json:"InstanceId"`
-	State string `json:"State"`
+	State      string `json:"State"`
 }
 
 // Tag .
@@ -251,8 +251,8 @@ func getTargets(region string, arn string) ([]Target, error) {
 }
 
 // MergeResources は、与えられたそれぞれの EC2、ALB をもとに情報を集約して返します。
-// TODO: ループがキモいのでどうにかしたいけど SDK の使用的に難しい？
-func MergeResources(instances []Instance, loadbalancers []LoadBalancer) []Instance{
+// TODO: ループがキモいのでどうにかしたいけど SDK の仕様的に難しい？
+func MergeResources(instances []Instance, loadbalancers []LoadBalancer) []Instance {
 	for n, i := range instances {
 		for _, l := range loadbalancers {
 			for _, tg := range l.TargetGroups {
@@ -265,6 +265,6 @@ func MergeResources(instances []Instance, loadbalancers []LoadBalancer) []Instan
 			}
 		}
 	}
-	
+
 	return instances
 }
