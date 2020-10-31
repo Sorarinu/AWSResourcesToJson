@@ -251,6 +251,7 @@ func getTargets(region string, arn string) ([]Target, error) {
 }
 
 // MergeResources は、与えられたそれぞれの EC2、ALB をもとに情報を集約して返します。
+// TODO: ループがキモいのでどうにかしたいけど SDK の使用的に難しい？
 func MergeResources(instances []Instance, loadbalancers []LoadBalancer) []Instance{
 	for n, i := range instances {
 		for _, l := range loadbalancers {
