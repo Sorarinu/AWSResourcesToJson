@@ -45,7 +45,7 @@ $ make
     "Name": "ec2_instance_hoge",
     "LoadBalancer": {
       "Arn": "arn:aws:elasticloadbalancing:ap-northeast-1:xxxxxxxxxx:loadbalancer/app/hoge-loadbalancer/zzzzzzzzzzzz",
-      "Name": "cnt-coi-alb01",
+      "Name": "hoge-loadbalancer",
       "Tags": [
         {
           "Key": "hoge",
